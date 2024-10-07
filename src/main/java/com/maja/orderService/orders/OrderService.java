@@ -1,7 +1,7 @@
 package com.maja.orderService.orders;
 
 import com.maja.orderService.emails.EmailService;
-import com.maja.orderService.items.dtos.ItemDtoResponse;
+import com.maja.orderService.items.dtos.ItemInOrderDtoResponse;
 import com.maja.orderService.items.exceptions.ItemNotFoundException;
 import com.maja.orderService.items.repositories.ItemRepository;
 import com.maja.orderService.orders.dtos.OrderDtoCreateRequest;
@@ -59,7 +59,7 @@ public class OrderService {
         var items = order.getOrderItems().stream()
                 .map(orderItem -> {
                     var item = orderItem.getItem();
-                    return new ItemDtoResponse(item.getName(), new BigDecimal(item.getPrice()), item.getColor(), orderItem.getQuantity());
+                    return new ItemInOrderDtoResponse(item.getName(), new BigDecimal(item.getPrice()), item.getColor(), orderItem.getQuantity());
                 })
                 .toList();
         var totalSum = items.stream()

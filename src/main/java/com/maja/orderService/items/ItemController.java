@@ -1,11 +1,10 @@
 package com.maja.orderService.items;
 
 import com.maja.orderService.items.dtos.ItemDtoCreateRequest;
+import com.maja.orderService.items.dtos.ItemListDtoResponse;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/items")
@@ -20,5 +19,10 @@ class ItemController {
     @PostMapping
     void createItem(@Valid @RequestBody ItemDtoCreateRequest itemDto){
         itemService.createItem(itemDto);
+    }
+
+    @GetMapping
+    ItemListDtoResponse getItems(Pageable pageable){
+        return itemService.getItems(pageable);
     }
 }
