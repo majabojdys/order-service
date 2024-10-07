@@ -36,7 +36,8 @@ class ItemService {
     }
 
     private ItemDtoResponse mapToItemDtoResponse(Item item) {
-        return new ItemDtoResponse(item.getName(),
+        return new ItemDtoResponse(item.getId(),
+                item.getName(),
                 item.getPrice(),
                 item.getColor());
     }

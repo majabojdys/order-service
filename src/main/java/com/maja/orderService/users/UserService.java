@@ -44,7 +44,8 @@ class UserService {
     }
 
     private UserDtoResponse mapToUserResponseDto(User user) {
-        return new UserDtoResponse(user.getFirstName(),
+        return new UserDtoResponse(user.getId(),
+                user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
                 user.getAvatarUrl());
