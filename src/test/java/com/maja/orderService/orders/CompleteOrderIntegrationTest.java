@@ -22,6 +22,7 @@ class CompleteOrderIntegrationTest extends IntegrationTest {
         var orders = orderRepository.findAll();
         Assertions.assertEquals(1, orders.size());
         Assertions.assertEquals(OrderStatus.COMPLETED, orders.getFirst().getStatus());
+        Assertions.assertTrue(orders.getFirst().getFinishedAt().isPresent());
     }
 
     @Test

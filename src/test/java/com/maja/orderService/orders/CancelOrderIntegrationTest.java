@@ -22,6 +22,7 @@ class CancelOrderIntegrationTest extends IntegrationTest {
         var orders = orderRepository.findAll();
         Assertions.assertEquals(1, orders.size());
         Assertions.assertEquals(OrderStatus.CANCELLED, orders.getFirst().getStatus());
+        Assertions.assertTrue(orders.getFirst().getFinishedAt().isPresent());
     }
 
     @Test

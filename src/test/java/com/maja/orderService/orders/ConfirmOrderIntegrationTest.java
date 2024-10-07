@@ -22,6 +22,7 @@ class ConfirmOrderIntegrationTest extends IntegrationTest {
         var orders = orderRepository.findAll();
         Assertions.assertEquals(1, orders.size());
         Assertions.assertEquals(OrderStatus.CONFIRMED, orders.getFirst().getStatus());
+        Assertions.assertTrue(orders.getFirst().getConfirmedAt().isPresent());
     }
 
     @Test
