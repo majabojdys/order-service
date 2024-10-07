@@ -2,6 +2,7 @@ package com.maja.orderService.users;
 
 import com.maja.orderService.users.clients.DogAvatarClient;
 import com.maja.orderService.users.dtos.UserDtoCreateRequest;
+import com.maja.orderService.users.exceptions.UserAlreadyExistsException;
 import com.maja.orderService.users.repositories.Address;
 import com.maja.orderService.users.repositories.User;
 import com.maja.orderService.users.repositories.UserRepository;
@@ -22,6 +23,9 @@ class UserService {
     }
 
     void createUser(UserDtoCreateRequest userDto) {
+        if(userRepository.existsByEmail(userDto.email())){
+            throw new UserAlreadyExistsException(userDto.email());
+        }
         var addressDto = userDto.address();
         var address = new Address(addressDto.street(), addressDto.number(), addressDto.city(), addressDto.zipCode(), addressDto.country());
         var avatarUrl = dogAvatarClient.getDogAvatarUrl();

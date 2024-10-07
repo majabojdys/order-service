@@ -40,6 +40,24 @@ class CreateUserIntegrationTest extends IntegrationTest {
     }
 
     @Test
+    void shouldReturn409ConflictWhenCreateUserWithEmailThatAlreadyExists() {
+        // given
+        var userDto = UserFactory.getUserDtoWithAddress();
+        var avatarUrl = "avatarUrl";
+        Mockito.when(dogAvatarClient.getDogAvatarUrl()).thenReturn(avatarUrl);
+        userRepository.save(UserFactory.getUserWithAddress());
+
+        // when
+        var response = restTemplate.postForEntity(getLocalhost() + "/api/v1/users", userDto, Error.class);
+
+        // then
+        Assertions.assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        var body = response.getBody();
+        Assertions.assertEquals("USER_ALREADY_EXISTS", body.errorCode());
+        Assertions.assertEquals("User with email email@gmail.com already exists", body.errorDescription());
+    }
+
+    @Test
     void shouldValidateRequest() {
         // given
         var addressDto = new AddressDtoCreateRequest(null, null, null, null, null);
