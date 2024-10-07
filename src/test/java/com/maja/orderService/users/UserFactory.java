@@ -12,6 +12,11 @@ public class UserFactory {
         return new User("Maja", "Bojdys", "email@gmail.com", "password", "avatarUrl", address);
     }
 
+    public static User getUserWithAddress(String email){
+        var address = new Address("ulica", "31A", "miasto", "12-123", "PL");
+        return new User("Maja", "Bojdys", email, "password", "avatarUrl", address);
+    }
+
     public static UserDtoCreateRequest getUserDtoWithAddress(){
         var addressDto = new AddressDtoCreateRequest("ulica", "31A", "miasto", "12-123", "PL");
         return new UserDtoCreateRequest("Maja", "Bojdys", "email@gmail.com", "password", addressDto);
