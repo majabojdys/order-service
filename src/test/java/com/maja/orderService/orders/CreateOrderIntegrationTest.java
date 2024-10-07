@@ -4,6 +4,7 @@ import com.maja.orderService.IntegrationTest;
 import com.maja.orderService.commons.Error;
 import com.maja.orderService.items.ItemsFactory;
 import com.maja.orderService.orders.dtos.OrderDtoCreateRequest;
+import com.maja.orderService.orders.dtos.OrderDtoCreateResponse;
 import com.maja.orderService.orders.dtos.OrderItemDtoCreateRequest;
 import com.maja.orderService.users.UserFactory;
 import org.junit.jupiter.api.Assertions;
@@ -27,12 +28,13 @@ class CreateOrderIntegrationTest extends IntegrationTest {
         userRepository.save(user);
 
         // when
-        var response = restTemplate.postForEntity(getLocalhost() + "/api/v1/orders?userId=" + user.getId(), orderDto, Void.class);
+        var response = restTemplate.postForEntity(getLocalhost() + "/api/v1/orders?userId=" + user.getId(), orderDto, OrderDtoCreateResponse.class);
 
         // then
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         var orders = orderRepository.findAll();
         Assertions.assertEquals(1, orders.size());
+        Assertions.assertEquals(response.getBody().orderId(), orders.getFirst().getId());
         Assertions.assertEquals(OrderStatus.NEW, orders.getFirst().getStatus());
         Assertions.assertEquals(item1, orders.getFirst().getOrderItems().get(0).getItem());
         Assertions.assertEquals(item2, orders.getFirst().getOrderItems().get(1).getItem());

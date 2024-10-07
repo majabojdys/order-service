@@ -1,6 +1,7 @@
 package com.maja.orderService.orders;
 
 import com.maja.orderService.orders.dtos.OrderDtoCreateRequest;
+import com.maja.orderService.orders.dtos.OrderDtoCreateResponse;
 import com.maja.orderService.orders.dtos.OrderDtoResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +23,9 @@ class OrderController {
     }
 
     @PostMapping
-    void createOrder(@Valid @RequestBody OrderDtoCreateRequest orderDto,
-                     @RequestParam Long userId) {
-        orderService.createOrderAndSendEmailWithConfirmationCode(orderDto, userId);
+    OrderDtoCreateResponse createOrder(@Valid @RequestBody OrderDtoCreateRequest orderDto,
+                                       @RequestParam Long userId) {
+        return orderService.createOrderAndSendEmailWithConfirmationCode(orderDto, userId);
     }
 
     @GetMapping("/{id}")

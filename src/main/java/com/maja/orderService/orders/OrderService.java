@@ -5,6 +5,7 @@ import com.maja.orderService.items.dtos.ItemInOrderDtoResponse;
 import com.maja.orderService.items.exceptions.ItemNotFoundException;
 import com.maja.orderService.items.repositories.ItemRepository;
 import com.maja.orderService.orders.dtos.OrderDtoCreateRequest;
+import com.maja.orderService.orders.dtos.OrderDtoCreateResponse;
 import com.maja.orderService.orders.dtos.OrderDtoResponse;
 import com.maja.orderService.orders.exceptions.CancelCancelledOrderException;
 import com.maja.orderService.orders.exceptions.CancelCompletedOrderException;
@@ -39,7 +40,7 @@ public class OrderService {
         this.emailService = emailService;
     }
 
-    void createOrderAndSendEmailWithConfirmationCode(OrderDtoCreateRequest orderDto, Long userId) {
+    OrderDtoCreateResponse createOrderAndSendEmailWithConfirmationCode(OrderDtoCreateRequest orderDto, Long userId) {
         var user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId.toString()));
         var order = new Order();
         var orderItems = orderDto.orderedItems().stream()
@@ -52,6 +53,7 @@ public class OrderService {
         order.setUser(user);
         orderRepository.save(order);
         emailService.sendConfirmationEmail(user.getEmail(), order.getId(), order.getConfirmationCode());
+        return new OrderDtoCreateResponse(order.getId());
     }
 
     OrderDtoResponse getOrderDetails(Long orderId) {
