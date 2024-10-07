@@ -1,9 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: orderservice
+    image: majabojdys/orderservice-app
     restart: always
     ports:
       - "8080:8080"
